@@ -1,5 +1,6 @@
 // app/components/Navbar.tsx or wherever your layout is
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Navbar() {
   return (
@@ -20,7 +21,7 @@ export default function Navbar() {
       <div className="flex items-center space-x-6 text-sm text-black font-medium">
         <a href="#about" className="hover:underline">About</a>
         <a href="#initiatives" className="hover:underline">Initiatives</a>
-        <a href="#signin" className="hover:underline">Sign In</a>
+        <Link href="/signIn" className="hover:underline">Sign In</Link>
       </div>
     </nav>
   );
