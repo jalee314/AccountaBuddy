@@ -31,8 +31,12 @@ export default function Leaderboard() {
             //player is colored yellow if they're first, otherwise they're green
             className={`flex items-center justify-between p-4 rounded-xl shadow-sm border ${
               index === 0
-                ? 'bg-yellow-100 border-yellow-300'
-                : 'bg-green-50 border-green-200'
+                ? 'bg-yellow-50 border-yellow-300 border-2'
+                : index === 1
+                ? 'bg-gray-50 border-zinc-400 border-2'
+                : index === 2
+                ? 'bg-orange-50 border-yellow-700 border-2'
+                : 'bg-purple-50 border-green-200'
             }`}
           > 
           {/* player avatar and name (left side of leaderboard) */}
