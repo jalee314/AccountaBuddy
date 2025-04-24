@@ -21,6 +21,7 @@ export default function Navbar() {
       <div className="flex items-center space-x-6 text-sm text-black font-medium">
         <a href="#about" className="hover:underline">About</a>
         <Link href="/friendlist" className="hover:underline">Friends</Link>
+        <Link href="/leaderboard" className="hover:underline">Leaderboard</Link>
         <Link href="/signIn" className="hover:underline">Sign In</Link>
       </div>
     </nav>
