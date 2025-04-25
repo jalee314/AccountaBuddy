@@ -2,6 +2,7 @@
 'use client';
 import Navbar from '../../components/Navbar'; // adjust path if needed
 import Image from 'next/image';
+import { login, signup } from './actions'
 
 export default function SignInPage() {
   return (
@@ -19,7 +20,15 @@ export default function SignInPage() {
             />
             <h1 className="text-2xl font-bold text-center">Sign In</h1>
           </div>
-          <form className="flex flex-col gap-4">
+          <form>
+            <label htmlFor="email">Email:</label>
+              <input id="email" name="email" type="email" required />
+            <label htmlFor="password">Password:</label>
+              <input id="password" name="password" type="password" required />
+            <button formAction={login}>Log in</button>
+            <button formAction={signup}>Sign up</button>
+        </form>
+          {/* <form className="flex flex-col gap-4">
             <input
               type="email"
               placeholder="Email"
@@ -41,7 +50,7 @@ export default function SignInPage() {
               Forgot Password?
             </h2>
 
-          </form>
+          </form> */}
         </div>
       </main>
     </>
