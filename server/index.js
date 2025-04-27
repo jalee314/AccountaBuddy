@@ -4,10 +4,12 @@
 const cors = require('cors');
 const express = require('express');
 const { exec } = require('child_process');
+const { supabase } = require('./supabaseClient');
+
 //NOTE: Express is used here because its super easy to define routes (URLs), process HTTP requests (GET, POST etc.), 
 // process requests or perform actions before sending a response (middleware) and return responses to the client.
 const app = express();
-const port = 3000;
+const port = 3001;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -87,4 +89,24 @@ app.get('/get-data', (req, res) => {
     console.log(cleanedArray);
     return res.status(200).json({ output: cleanedArray});
   });
+});
+
+app.get('/get-users', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('users')
+      .select('username, score')
+      .order('score', { ascending: false });
+
+    if (error) {
+      console.error('Supabase error:', error.message);
+      return res.status(500).json({ success: false, error: error.message });
+    }
+
+    console.log('Fetched players:', data);
+    return res.status(200).json({ success: true, players: data });
+  } catch (err) {
+    console.error('Server error:', err.message);
+    return res.status(500).json({ success: false, error: err.message });
+  }
 });
