@@ -23,11 +23,13 @@ export default function SignInPage() {
           <form className="flex flex-col gap-4">
             <input
               type="email"
+              name="email"
               placeholder="Email"
               className="px-4 py-2 rounded-md border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
             <input
               type="password"
+              name="password"
               placeholder="Password"
               className="px-4 py-2 rounded-md border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
