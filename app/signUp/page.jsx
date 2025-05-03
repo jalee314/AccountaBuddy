@@ -2,9 +2,9 @@
 'use client';
 import Navbar from '../../components/Navbar'; // adjust path if needed
 import Image from 'next/image';
-import { login } from './actions'
+import { signup } from './actions'
 
-export default function SignInPage() {
+export default function SignUpPage() {
   return (
     <>
       <Navbar />
@@ -18,7 +18,7 @@ export default function SignInPage() {
               height={64}
               className="mb-3 rounded-md"
             />
-            <h1 className="text-2xl font-bold text-center">Sign In</h1>
+            <h1 className="text-2xl font-bold text-center">Sign Up</h1>
           </div>
           <form className="flex flex-col gap-4">
             <input
@@ -33,11 +33,8 @@ export default function SignInPage() {
               placeholder="Password"
               className="px-4 py-2 rounded-md border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
- <button formAction={login}>Log in</button>
- <a href="/signUp" className="text-sm mt-2 text-center underline">Don't have an account? Sign up</a>     
-            <h2> 
-              Forgot Password?
-            </h2>
+ <button formAction={signup}>Sign Up</button>
+ <a href="/signIn" className="text-sm mt-2 text-center underline">Have an account? Login</a>     
           </form>
         </div>
       </main>
