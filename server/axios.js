@@ -26,4 +26,3 @@ export function getData() {
         throw new Error('Error fetching data from the server');
       });
   }
-

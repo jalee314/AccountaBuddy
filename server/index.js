@@ -110,3 +110,23 @@ app.get('/get-users', async (req, res) => {
     return res.status(500).json({ success: false, error: err.message });
   }
 });
+
+
+app.get("/auth/confirm", async function (req, res) {
+  const token_hash = req.query.token_hash
+  const type = req.query.type
+  const next = req.query.next ?? "/"
+
+  if (token_hash && type) {
+    const { error } = await supabase.auth.verifyOtp({
+      type,
+      token_hash,
+    })
+    if (!error) {
+      res.redirect(303, `/${next.slice(1)}`)
+    }
+  }
+
+  // return the user to an error page with some instructions
+  res.redirect(303, '/auth/auth-code-error')
+})
