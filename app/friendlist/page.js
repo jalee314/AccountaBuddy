@@ -27,7 +27,6 @@ export default function FriendlistPage() {
 
   const supabase = createClientComponentClient();
 
-  // Checklist functions (your existing code)
   const addChecklist = () => {
     const newChecklist = {
       id: checklists.length + 1,
@@ -141,7 +140,6 @@ export default function FriendlistPage() {
       setSuccess(true);
       setFriendEmail('');
       setShowAddFriend(false);
-      // You would typically refresh your friends list here
     } catch (err) {
       setError(err.message);
     } finally {
