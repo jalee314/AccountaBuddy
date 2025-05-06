@@ -22,12 +22,12 @@ export default function Leaderboard() {
       if (error) throw error;
       
       if (friends) {
-        // Transform Supabase data to match your player structure
+        // Transform Supabase data to map to player structure on the leaderboard page
         const formattedPlayers = friends.map(friend => ({
           name: friend.name  || 'Anonymous',
           username: friend.username || 'NULL',
           status: friend.status || 'offline',
-          avatar: friend.avatar_url || '/avatar_1.png' // Fallback avatar
+          avatar: friend.avatar_url || '/avatar_1.png' // default avatar
         }));
         
         setPlayers(formattedPlayers);
@@ -35,7 +35,7 @@ export default function Leaderboard() {
     } catch (err) {
       console.error('Error fetching friends:', err);
       setError(err.message);
-      // Fallback to default players if API fails
+      // Fallback to default players if API fails (??) not sure if we should keep
       setPlayers([
         { name: 'Charlie', score: 420, avatar: '/avatar_1.png' },
         { name: 'Pim', score: 23, avatar: '/avatar_2.png' },

@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import Navbar from '../../components/Navbar';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
-export default function friendlistPage() {
+export default function FriendlistPage() {
+  // Checklists state
   const [checklists, setChecklists] = useState([
     {
       id: 1,
@@ -15,6 +17,17 @@ export default function friendlistPage() {
     },
   ]);
 
+  // Friends state
+  const [friends, setFriends] = useState([]);
+  const [showAddFriend, setShowAddFriend] = useState(false);
+  const [friendEmail, setFriendEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
+  const supabase = createClientComponentClient();
+
+  // Checklist functions (your existing code)
   const addChecklist = () => {
     const newChecklist = {
       id: checklists.length + 1,
@@ -24,10 +37,7 @@ export default function friendlistPage() {
   };
 
   const removeChecklist = (checklistId) => {
-    // Perform any necessary cleanup here
     console.log(`Cleaning up resources for checklist ${checklistId}`);
-  
-    // Remove the checklist from the state
     setChecklists((prevChecklists) =>
       prevChecklists.filter((checklist) => checklist.id !== checklistId)
     );
@@ -86,7 +96,58 @@ export default function friendlistPage() {
     );
   };
 
-  
+  // Friend functions
+  const handleAddFriend = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('You must be logged in to add friends');
+
+      // Find user by email
+      const { data: friendUser, error: userError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('email', friendEmail)
+        .single();
+
+      if (userError || !friendUser) throw new Error('User not found');
+
+      // Check if friendship exists
+      const { data: existingFriendship } = await supabase
+        .from('friends')
+        .select('*')
+        .or(`and(user1.eq.${user.id},user2.eq.${friendUser.id}),and(user1.eq.${friendUser.id},user2.eq.${user.id})`);
+
+      if (existingFriendship && existingFriendship.length > 0) {
+        throw new Error('You are already friends with this user');
+      }
+
+      // Add friend
+      const { error: insertError } = await supabase
+        .from('friends')
+        .insert([{ 
+          user1: user.id, 
+          user2: friendUser.id,
+          status: 'pending' 
+        }]);
+
+      if (insertError) throw insertError;
+
+      setSuccess(true);
+      setFriendEmail('');
+      setShowAddFriend(false);
+      // You would typically refresh your friends list here
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -104,12 +165,12 @@ export default function friendlistPage() {
               </a>
             </li>
             <li>
-              <a
-                href="#"
-                className="block text-center text-black dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 py-2 rounded-md transition"
+              <button
+                onClick={() => setShowAddFriend(!showAddFriend)}
+                className="w-full block text-center text-black dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 py-2 rounded-md transition"
               >
                 Add Friends
-              </a>
+              </button>
             </li>
             <li>
               <a
@@ -120,104 +181,133 @@ export default function friendlistPage() {
               </a>
             </li>
           </ul>
-          {/*divider*/}
-        
 
           <hr className="my-4 w-full border-neutral-200 dark:border-neutral-800" />
-          <hr/>
-          {/* Friends Title */}
-            <h2 className="text-lg font-bold text-black dark:text-white mt-4 text-center self-center">Friends</h2>
+          
+          <h2 className="text-lg font-bold text-black dark:text-white mt-4 text-center self-center">Friends</h2>
 
+          {friends.map(friend => (
             <button
-                onClick={() => window.location.href = '/friendlist/'}
-                className="mt-2 w-full bg-white dark:bg-neutral-900 text-black dark:text-white py-2 rounded-md transition hover:bg-gray-100 dark:hover:bg-neutral-800"
+              key={friend.id}
+              onClick={() => window.location.href = `/friendlist/${friend.id}`}
+              className="mt-2 w-full bg-white dark:bg-neutral-900 text-black dark:text-white py-2 rounded-md transition hover:bg-gray-100 dark:hover:bg-neutral-800"
             >
-                John
+              {friend.name}
             </button>
-            <button
-                onClick={() => window.location.href = '/friendlist/'}
-                className="mt-2 w-full bg-white dark:bg-neutral-900 text-black dark:text-white py-2 rounded-md transition hover:bg-gray-100 dark:hover:bg-neutral-800"
-            >
-                Jane
-            </button>
-            <button
-                onClick={() => window.location.href = '/friendlist/'}
-                className="mt-2 w-full bg-white dark:bg-neutral-900 text-black dark:text-white py-2 rounded-md transition hover:bg-gray-100 dark:hover:bg-neutral-800"
-            >
-                Mike
-            </button>
+          ))}
         </aside>
 
         <section className="flex-1 p-6 flex flex-col items-center">
-          <div className="flex justify-end w-full mb-4">
-            <button
-              onClick={addChecklist}
-              className="bg-white text-black font-bold py-2 px-4 rounded-md transition hover:bg-gray-100"
-            >
-              Add Checklist
-            </button>
-          </div>
+          {showAddFriend ? (
+            <div className="w-full max-w-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-6 rounded-lg shadow-md mb-6">
+              <h2 className="text-xl font-bold text-black dark:text-white mb-4">Add New Friend</h2>
+              <form onSubmit={handleAddFriend} className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Friend's Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={friendEmail}
+                    onChange={(e) => setFriendEmail(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-800 dark:text-white"
+                    required
+                    placeholder="Enter your friend's email"
+                  />
+                </div>
+                
+                {error && <div className="text-red-500 text-sm">{error}</div>}
+                {success && <div className="text-green-500 text-sm">Friend request sent!</div>}
 
-          {checklists.map((checklist) => (
-            <div
-              key={checklist.id}
-              className="w-full max-w-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-6 rounded-lg shadow-md mb-6"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <button
-                  onClick={() => addTask(checklist.id)}
-                  title="Add Checklist Item" // Tooltip text
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition"
-                >
-                  +
-                </button>
-                <h2 className="text-lg font-bold text-black dark:text-white flex-1 text-center">
-                  Checklist {checklist.id}
-                </h2>
-                <button
-                  onClick={() =>removeChecklist(checklist.id)}
-                  title="remove checklist" // Tooltip text
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition"
+                <div className="flex space-x-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddFriend(false)}
+                    className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md transition"
                   >
-                    Remove
+                    Cancel
                   </button>
-              </div>
-              <ul className="space-y-2">
-                {checklist.tasks.map((task) => (
-                  <li
-                    key={task.id}
-                    className="flex items-center justify-between"
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={`flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    <div className="flex items-center w-full overflow-hidden">
-                      <input
-                        type="checkbox"
-                        checked={task.completed}
-                        onChange={() => toggleTask(checklist.id, task.id)}
-                        className="mr-2"
-                      />
-                      <span
-                        className={`${
-                          task.completed
-                            ? 'line-through text-gray-500 dark:text-gray-400'
-                            : ''
-                        } break-words whitespace-normal overflow-hidden text-ellipsis`}
-                        style={{ maxWidth: 'calc(100% - 50px)' }}
-                      >
-                        {task.text}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => removeTask(checklist.id, task.id)}
-                      title="Remove Checklist Item" // Tooltip text
-                      className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-700 transition"
-                    >
-                      -
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                    {loading ? 'Sending...' : 'Add Friend'}
+                  </button>
+                </div>
+              </form>
             </div>
-          ))}
+          ) : (
+            <>
+              <div className="flex justify-end w-full mb-4">
+                <button
+                  onClick={addChecklist}
+                  className="bg-white text-black font-bold py-2 px-4 rounded-md transition hover:bg-gray-100"
+                >
+                  Add Checklist
+                </button>
+              </div>
+
+              {checklists.map((checklist) => (
+                <div
+                  key={checklist.id}
+                  className="w-full max-w-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-6 rounded-lg shadow-md mb-6"
+                >
+                  <div className="flex justify-between items-center mb-4">
+                    <button
+                      onClick={() => addTask(checklist.id)}
+                      title="Add Checklist Item"
+                      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition"
+                    >
+                      +
+                    </button>
+                    <h2 className="text-lg font-bold text-black dark:text-white flex-1 text-center">
+                      Checklist {checklist.id}
+                    </h2>
+                    <button
+                      onClick={() => removeChecklist(checklist.id)}
+                      title="remove checklist"
+                      className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <ul className="space-y-2">
+                    {checklist.tasks.map((task) => (
+                      <li key={task.id} className="flex items-center justify-between">
+                        <div className="flex items-center w-full overflow-hidden">
+                          <input
+                            type="checkbox"
+                            checked={task.completed}
+                            onChange={() => toggleTask(checklist.id, task.id)}
+                            className="mr-2"
+                          />
+                          <span
+                            className={`${
+                              task.completed
+                                ? 'line-through text-gray-500 dark:text-gray-400'
+                                : ''
+                            } break-words whitespace-normal overflow-hidden text-ellipsis`}
+                            style={{ maxWidth: 'calc(100% - 50px)' }}
+                          >
+                            {task.text}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => removeTask(checklist.id, task.id)}
+                          title="Remove Checklist Item"
+                          className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-700 transition"
+                        >
+                          -
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </>
+          )}
         </section>
       </main>
     </>
