@@ -26,7 +26,7 @@ export default function AddFriendForm({ onFriendAdded }) {
 
       // Find the user with the provided email
       const { data: userData, error: userError } = await supabase
-        .from('profiles')
+        .from('users')
         .select('id')
         .eq('email', email)
         .single();
