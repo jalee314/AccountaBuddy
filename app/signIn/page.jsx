@@ -1,12 +1,13 @@
-// app/signin/page.js
 'use client';
-import Navbar from '../../components/Navbar'; // adjust path if needed
+import Link from 'next/link';
+import Navbar from '../../components/Navbar';
 import Image from 'next/image';
 import { login } from './actions'
 
 export default function SignInPage() {
   return (
-    <>
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-orange-100 via-green-100 to-green-200 text-center px-4">
+      {/* Navbar */}
       <Navbar />
       <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex items-center justify-center px-4 pt-20">
         <div className="w-full max-w-md p-8 rounded-xl shadow-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
