@@ -1,5 +1,4 @@
 'use client'
-
 import Link from 'next/link';
 import { useState } from 'react';
 import Navbar from '../../components/Navbar';
@@ -61,83 +60,7 @@ export default function FriendlistPage() {
 
   return (
     <>
-      <div className="border-b border-black">
       <Navbar />
-<<<<<<< HEAD
-      </div>
-      <main className="min-h-screen bg-gradient-to-b from-orange-100 via-green-100 to-green-200 bg-[var(--background)] text-[var(--foreground)] flex">
-        {/* Sidebar */}
-        <aside className="w-64 bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 p-4 flex flex-col items-start">
-          <ul className="space-y-4 w-full">
-            <li>
-              <a
-                href="http://localhost:3000"
-                className="block text-center text-black dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 py-2 rounded-md transition"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block text-center text-black dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 py-2 rounded-md transition"
-              >
-                Add Friends
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block text-center text-black dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 py-2 rounded-md transition"
-              >
-                Settings
-              </a>
-            </li>
-          </ul>
-          {/*divider*/}
-        
-
-          <hr className="my-4 w-full border-neutral-200 dark:border-neutral-800" />
-          <hr/>
-          {/* Friends Title */}
-            <h2 className="text-lg font-bold text-black dark:text-white mt-4 text-center self-center">Friends</h2>
-
-            <button
-                onClick={() => window.location.href = '/friendlist/'}
-                className="mt-2 w-full bg-white dark:bg-neutral-900 text-black dark:text-white py-2 rounded-md transition hover:bg-gray-100 dark:hover:bg-neutral-800"
-            >
-                John
-            </button>
-            <button
-                onClick={() => window.location.href = '/friendlist/'}
-                className="mt-2 w-full bg-white dark:bg-neutral-900 text-black dark:text-white py-2 rounded-md transition hover:bg-gray-100 dark:hover:bg-neutral-800"
-            >
-                Jane
-            </button>
-            <button
-                onClick={() => window.location.href = '/friendlist/'}
-                className="mt-2 w-full bg-white dark:bg-neutral-900 text-black dark:text-white py-2 rounded-md transition hover:bg-gray-100 dark:hover:bg-neutral-800"
-            >
-                Mike
-            </button>
-        </aside>
-
-        <section className="flex-1 p-6 flex flex-col items-center">
-          <div className="flex justify-end w-full mb-4">
-            <button
-              onClick={addChecklist}
-              className="bg-white text-black font-bold py-2 px-4 rounded-md border border-black transition hover:bg-gray-100"
-            >
-              Add Checklist
-            </button>
-          </div>
-
-          {checklists.map((checklist) => (
-            <div
-              key={checklist.id}
-              className="w-full max-w-md bg-black dark:bg-neutral-900 border border-gray-500 p-6 rounded-lg shadow-md mb-6"
-            >
-=======
       <main className="min-h-screen flex flex-col items-center bg-gradient-to-b from-orange-100 via-green-100 to-green-200 text-center px-4 py-8">
         {/* Header Buttons */}
         <div className="flex gap-4 mb-8">
@@ -156,7 +79,6 @@ n        </Link>
 
           {checklists.map((c) => (
             <div key={c.id} className="bg-white rounded-2xl p-6 shadow-lg mb-6 transform hover:scale-105 transition">
->>>>>>> 0d09da8 (Create button and clearn front end.)
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-black">Checklist {c.id}</h2>
                 <button

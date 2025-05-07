@@ -8,11 +8,7 @@ export default function Navbar() {
       <div className="flex items-center space-x-3">
         <Link href="/">
           <Image
-<<<<<<< HEAD
             src="/logo.png" // Place logo.png in /public
-=======
-            src="/logo.png" 
->>>>>>> 0d09da8 (Create button and clearn front end.)
             alt="Accountabuddy logo"
             width={40}
             height={40}
@@ -24,11 +20,7 @@ export default function Navbar() {
       
       {/* Right side: nav links */}
       <div className="flex items-center space-x-6 text-sm text-black font-medium">
-<<<<<<< HEAD
         <a href="/about" className="hover:underline">About</a>
-=======
-        <Link href="/about" className="hover:underline">About</Link>
->>>>>>> 0d09da8 (Create button and clearn front end.)
         <Link href="/friendlist" className="hover:underline">Friends</Link>
         <Link href="/leaderboard" className="hover:underline">Leaderboard</Link>
         <Link href="/signIn" className="hover:underline">Sign In</Link>
