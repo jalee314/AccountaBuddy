@@ -1,9 +1,10 @@
-"use client";
+'use client'
 
+import Link from 'next/link';
 import { useState } from 'react';
 import Navbar from '../../components/Navbar';
 
-export default function friendlistPage() {
+export default function FriendlistPage() {
   const [checklists, setChecklists] = useState([
     {
       id: 1,
@@ -16,82 +17,53 @@ export default function friendlistPage() {
   ]);
 
   const addChecklist = () => {
-    const newChecklist = {
-      id: checklists.length + 1,
-      tasks: [],
-    };
-    setChecklists((prevChecklists) => [...prevChecklists, newChecklist]);
+    const newChecklist = { id: checklists.length + 1, tasks: [] };
+    setChecklists((prev) => [...prev, newChecklist]);
   };
 
-  const removeChecklist = (checklistId) => {
-    // Perform any necessary cleanup here
-    console.log(`Cleaning up resources for checklist ${checklistId}`);
-  
-    // Remove the checklist from the state
-    setChecklists((prevChecklists) =>
-      prevChecklists.filter((checklist) => checklist.id !== checklistId)
-    );
+  const removeChecklist = (id) => {
+    console.log(`Cleaning up resources for checklist ${id}`);
+    setChecklists((prev) => prev.filter((c) => c.id !== id));
   };
 
-  const addTask = (checklistId) => {
-    const taskName = prompt('Enter the task name:');
-    if (taskName) {
-      setChecklists((prevChecklists) =>
-        prevChecklists.map((checklist) =>
-          checklist.id === checklistId
-            ? {
-                ...checklist,
-                tasks: [
-                  ...checklist.tasks,
-                  {
-                    id: checklist.tasks.length + 1,
-                    text: taskName,
-                    completed: false,
-                  },
-                ],
-              }
-            : checklist
-        )
-      );
-    }
-  };
-
-  const toggleTask = (checklistId, taskId) => {
-    setChecklists((prevChecklists) =>
-      prevChecklists.map((checklist) =>
-        checklist.id === checklistId
-          ? {
-              ...checklist,
-              tasks: checklist.tasks.map((task) =>
-                task.id === taskId
-                  ? { ...task, completed: !task.completed }
-                  : task
-              ),
-            }
-          : checklist
+  const addTask = (cid) => {
+    const name = prompt('Enter the task name:');
+    if (!name) return;
+    setChecklists((prev) =>
+      prev.map((c) =>
+        c.id === cid
+          ? { ...c, tasks: [...c.tasks, { id: c.tasks.length + 1, text: name, completed: false }] }
+          : c
       )
     );
   };
 
-  const removeTask = (checklistId, taskId) => {
-    setChecklists((prevChecklists) =>
-      prevChecklists.map((checklist) =>
-        checklist.id === checklistId
+  const toggleTask = (cid, tid) => {
+    setChecklists((prev) =>
+      prev.map((c) =>
+        c.id === cid
           ? {
-              ...checklist,
-              tasks: checklist.tasks.filter((task) => task.id !== taskId),
+              ...c,
+              tasks: c.tasks.map((t) => (t.id === tid ? { ...t, completed: !t.completed } : t)),
             }
-          : checklist
+          : c
       )
     );
   };
 
-  
+  const removeTask = (cid, tid) => {
+    setChecklists((prev) =>
+      prev.map((c) =>
+        c.id === cid ? { ...c, tasks: c.tasks.filter((t) => t.id !== tid) } : c
+      )
+    );
+  };
 
   return (
     <>
       <div className="border-b border-black">
       <Navbar />
+<<<<<<< HEAD
       </div>
       <main className="min-h-screen bg-gradient-to-b from-orange-100 via-green-100 to-green-200 bg-[var(--background)] text-[var(--foreground)] flex">
         {/* Sidebar */}
@@ -165,62 +137,71 @@ export default function friendlistPage() {
               key={checklist.id}
               className="w-full max-w-md bg-black dark:bg-neutral-900 border border-gray-500 p-6 rounded-lg shadow-md mb-6"
             >
+=======
+      <main className="min-h-screen flex flex-col items-center bg-gradient-to-b from-orange-100 via-green-100 to-green-200 text-center px-4 py-8">
+        {/* Header Buttons */}
+        <div className="flex gap-4 mb-8">
+          <Link href="#" className="bg-black text-white rounded-full px-6 py-2 hover:bg-gray-800 transition">
+            Add Friend
+n        </Link>
+        </div>
+        {/* Checklist Controls */}
+        <div className="w-full max-w-lg">
+          <button
+            onClick={addChecklist}
+            className="mb-6 bg-black text-white rounded-full px-6 py-2 hover:bg-gray-800 transition"
+          >
+            + New Checklist
+          </button>
+
+          {checklists.map((c) => (
+            <div key={c.id} className="bg-white rounded-2xl p-6 shadow-lg mb-6 transform hover:scale-105 transition">
+>>>>>>> 0d09da8 (Create button and clearn front end.)
               <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-black">Checklist {c.id}</h2>
                 <button
-                  onClick={() => addTask(checklist.id)}
-                  title="Add Checklist Item" // Tooltip text
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition"
+                  onClick={() => removeChecklist(c.id)}
+                  className="bg-red-500 hover:bg-red-600 text-white rounded-full px-4 py-1 transition"
                 >
-                  +
+                  Remove
                 </button>
-                <h2 className="text-lg font-bold text-black dark:text-white flex-1 text-center">
-                  Checklist {checklist.id}
-                </h2>
-                <button
-                  onClick={() =>removeChecklist(checklist.id)}
-                  title="remove checklist" // Tooltip text
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition"
-                  >
-                    Remove
-                  </button>
               </div>
-              <ul className="space-y-2">
-                {checklist.tasks.map((task) => (
-                  <li
-                    key={task.id}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center w-full overflow-hidden">
+              <ul className="space-y-3">
+                {c.tasks.map((t) => (
+                  <li key={t.id} className="flex items-center justify-between">
+                    <label className="flex items-center gap-2 w-full">
                       <input
                         type="checkbox"
-                        checked={task.completed}
-                        onChange={() => toggleTask(checklist.id, task.id)}
-                        className="mr-2"
+                        checked={t.completed}
+                        onChange={() => toggleTask(c.id, t.id)}
+                        className="h-5 w-5"
                       />
                       <span
-                        className={`${
-                          task.completed
-                            ? 'line-through text-gray-500 dark:text-gray-400'
-                            : ''
-                        } break-words whitespace-normal overflow-hidden text-ellipsis`}
-                        style={{ maxWidth: 'calc(100% - 50px)' }}
+                        className={`flex-1 text-left break-words ${
+                          t.completed ? 'line-through text-gray-400' : 'text-black'
+                        }`}
                       >
-                        {task.text}
+                        {t.text}
                       </span>
-                    </div>
+                    </label>
                     <button
-                      onClick={() => removeTask(checklist.id, task.id)}
-                      title="Remove Checklist Item" // Tooltip text
-                      className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-700 transition"
+                      onClick={() => removeTask(c.id, t.id)}
+                      className="bg-red-500 hover:bg-red-600 text-white rounded-full px-3 py-1 transition"
                     >
                       -
                     </button>
                   </li>
                 ))}
               </ul>
+              <button
+                onClick={() => addTask(c.id)}
+                className="mt-4 bg-blue-800 text-white rounded-full px-6 py-2 hover:bg-blue-600 transition"
+              >
+                + Add Task
+              </button>
             </div>
           ))}
-        </section>
+        </div>
       </main>
     </>
   );
