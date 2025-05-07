@@ -90,14 +90,16 @@ export default function friendlistPage() {
 
   return (
     <>
+      <div className="border-b border-black">
       <Navbar />
-      <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex">
+      </div>
+      <main className="min-h-screen bg-gradient-to-b from-orange-100 via-green-100 to-green-200 bg-[var(--background)] text-[var(--foreground)] flex">
         {/* Sidebar */}
         <aside className="w-64 bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 p-4 flex flex-col items-start">
           <ul className="space-y-4 w-full">
             <li>
               <a
-                href="#"
+                href="http://localhost:3000"
                 className="block text-center text-black dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 py-2 rounded-md transition"
               >
                 Home
@@ -152,7 +154,7 @@ export default function friendlistPage() {
           <div className="flex justify-end w-full mb-4">
             <button
               onClick={addChecklist}
-              className="bg-white text-black font-bold py-2 px-4 rounded-md transition hover:bg-gray-100"
+              className="bg-white text-black font-bold py-2 px-4 rounded-md border border-black transition hover:bg-gray-100"
             >
               Add Checklist
             </button>
@@ -161,7 +163,7 @@ export default function friendlistPage() {
           {checklists.map((checklist) => (
             <div
               key={checklist.id}
-              className="w-full max-w-md bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-6 rounded-lg shadow-md mb-6"
+              className="w-full max-w-md bg-black dark:bg-neutral-900 border border-gray-500 p-6 rounded-lg shadow-md mb-6"
             >
               <div className="flex justify-between items-center mb-4">
                 <button
