@@ -41,6 +41,27 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <div className="mb-16">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 text-center">
+                Our Mission
+                </h2>
+                <p className="text-gray-600 text-center max-w-3xl mx-auto leading-relaxed">
+                
+                Democratizing Discipline Through Connection
+                <br/>
+                We believe willpower is overrated. Real change happens when:
+                <br/>
+                ✅ Social pressure works for you (not against you) <br/>
+                ✅ Progress is visible and celebrated <br/>
+                ✅ Support feels playful, not punitive <br/>
+                <br/>
+                AccountaBuddy replaces lonely grind culture with what actually works: friends who care enough to nudge. Because behind every "I finally did it!" is someone who asked, "How’s it going?" at just the right time.
+                <br/>
+                <br/>
+                <strong>Join the rebellion against going it alone.</strong>
+                </p>
+            </div>
+
         {/* Team */}
         <section className="w-full max-w-5xl bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition mb-12">
           <h2 className="text-2xl font-bold text-black mb-4">Team Members</h2>
