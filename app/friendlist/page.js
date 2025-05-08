@@ -1,11 +1,13 @@
-"use client";
-
+'use client'
+import Link from 'next/link';
 import { useState } from 'react';
 import Navbar from '../../components/Navbar';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function FriendlistPage() {
+
   // Checklists state
+
   const [checklists, setChecklists] = useState([
     {
       id: 1,
@@ -28,11 +30,8 @@ export default function FriendlistPage() {
   const supabase = createClientComponentClient();
 
   const addChecklist = () => {
-    const newChecklist = {
-      id: checklists.length + 1,
-      tasks: [],
-    };
-    setChecklists((prevChecklists) => [...prevChecklists, newChecklist]);
+    const newChecklist = { id: checklists.length + 1, tasks: [] };
+    setChecklists((prev) => [...prev, newChecklist]);
   };
 
   const removeChecklist = (checklistId) => {
@@ -40,60 +39,42 @@ export default function FriendlistPage() {
     setChecklists((prevChecklists) =>
       prevChecklists.filter((checklist) => checklist.id !== checklistId)
     );
+
   };
 
-  const addTask = (checklistId) => {
-    const taskName = prompt('Enter the task name:');
-    if (taskName) {
-      setChecklists((prevChecklists) =>
-        prevChecklists.map((checklist) =>
-          checklist.id === checklistId
-            ? {
-                ...checklist,
-                tasks: [
-                  ...checklist.tasks,
-                  {
-                    id: checklist.tasks.length + 1,
-                    text: taskName,
-                    completed: false,
-                  },
-                ],
-              }
-            : checklist
-        )
-      );
-    }
-  };
-
-  const toggleTask = (checklistId, taskId) => {
-    setChecklists((prevChecklists) =>
-      prevChecklists.map((checklist) =>
-        checklist.id === checklistId
-          ? {
-              ...checklist,
-              tasks: checklist.tasks.map((task) =>
-                task.id === taskId
-                  ? { ...task, completed: !task.completed }
-                  : task
-              ),
-            }
-          : checklist
+  const addTask = (cid) => {
+    const name = prompt('Enter the task name:');
+    if (!name) return;
+    setChecklists((prev) =>
+      prev.map((c) =>
+        c.id === cid
+          ? { ...c, tasks: [...c.tasks, { id: c.tasks.length + 1, text: name, completed: false }] }
+          : c
       )
     );
   };
 
-  const removeTask = (checklistId, taskId) => {
-    setChecklists((prevChecklists) =>
-      prevChecklists.map((checklist) =>
-        checklist.id === checklistId
+  const toggleTask = (cid, tid) => {
+    setChecklists((prev) =>
+      prev.map((c) =>
+        c.id === cid
           ? {
-              ...checklist,
-              tasks: checklist.tasks.filter((task) => task.id !== taskId),
+              ...c,
+              tasks: c.tasks.map((t) => (t.id === tid ? { ...t, completed: !t.completed } : t)),
             }
-          : checklist
+          : c
       )
     );
   };
+
+  const removeTask = (cid, tid) => {
+    setChecklists((prev) =>
+      prev.map((c) =>
+        c.id === cid ? { ...c, tasks: c.tasks.filter((t) => t.id !== tid) } : c
+      )
+    );
+  };
+
 
   // Friend functions
   const handleAddFriend = async (e) => {
@@ -260,6 +241,7 @@ export default function FriendlistPage() {
                     >
                       +
                     </button>
+
                     <h2 className="text-lg font-bold text-black dark:text-white flex-1 text-center">
                       Checklist {checklist.id}
                     </h2>

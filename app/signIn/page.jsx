@@ -2,6 +2,7 @@
 'use client';
 import Navbar from '../../components/Navbar'; // adjust path if needed
 import Image from 'next/image';
+import { login } from './actions'
 
 export default function SignInPage() {
   return (
@@ -22,25 +23,21 @@ export default function SignInPage() {
           <form className="flex flex-col gap-4">
             <input
               type="email"
+              name="email"
               placeholder="Email"
               className="px-4 py-2 rounded-md border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
             <input
               type="password"
+              name="password"
               placeholder="Password"
               className="px-4 py-2 rounded-md border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
-            <button
-              type="submit"
-              className="bg-black text-white py-2 rounded-md hover:bg-neutral-800 transition"
-            >
-              Sign In
-            </button>
-            
+ <button formAction={login}>Log in</button>
+ <a href="/signUp" className="text-sm mt-2 text-center underline">Don't have an account? Sign up</a>     
             <h2> 
               Forgot Password?
             </h2>
-
           </form>
         </div>
       </main>

@@ -1,11 +1,14 @@
 'use client';
+
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
+
 export default function Leaderboard() {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState(null);
 
   // Initialize Supabase client
@@ -92,6 +95,7 @@ export default function Leaderboard() {
                 : 'bg-purple-50 border-green-200'
             }`}
           >
+
             <div className="flex items-center gap-4.5">
               <Image
                 src={player.avatar}
