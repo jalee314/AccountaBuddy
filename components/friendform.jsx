@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '../utils/supabase/client';
 
 export default function AddFriendForm({ onFriendAdded }) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +17,7 @@ export default function AddFriendForm({ onFriendAdded }) {
     setSuccess(false);
 
     try {
-      // First get the current user's ID
+      //get the current user's ID
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {

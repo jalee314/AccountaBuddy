@@ -2,6 +2,8 @@
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import { useFriendlistLogic } from './action';
+import AddFriendForm from '../../components/friendform';
+import AuthStatus from '../../components/authtest';
 
 export default function FriendlistPage() {
   const {
@@ -19,11 +21,12 @@ export default function FriendlistPage() {
       <main className="min-h-screen flex flex-col items-center bg-gradient-to-b from-orange-100 via-green-100 to-green-200 text-center px-4 py-8">
         {/* Header Buttons */}
         <div className="flex gap-4 mb-8">
-          <Link href="#" className="bg-black text-white rounded-full px-6 py-2 hover:bg-gray-800 transition">
-            Add Friend
-          </Link>
+          <AuthStatus/>
         </div>
         {/* Checklist Controls */}
+        <div className="flex gap-4 mb-8">
+          <AddFriendForm/>
+        </div>
         <div className="w-full max-w-lg">
           <button
             onClick={addChecklist}

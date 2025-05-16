@@ -19,7 +19,7 @@ export default function Leaderboard() {
     try {
       setLoading(true);
       const { data: friends, error } = await supabase
-        .from('friends')
+        .from('users')
         .select('*');
       
       if (error) throw error;
