@@ -1,13 +1,22 @@
 // app/page.tsx
+"use client"
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '../components/Navbar';
+import { createClient } from '../utils/supabase/client';
+import { useEffect, useState } from 'react'
+const supabase = createClient();
+import AuthStatus from '../components/authtest';
 
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-orange-100 via-green-100 to-green-200 text-center px-4">
       {/* Header */}
       <Navbar />
+
+      <div className="mt-8">
+          <AuthStatus/>
+      </div>
       
       <section className="flex flex-col items-center text-center mt-32 max-w-xl">
         {/* <div className="bg-white rounded-3xl p-4 shadow-xl mb-8">
@@ -36,12 +45,6 @@ export default function Home() {
           >
             Invite a Friend
           </Link>
-        </div>
-
-
-        <div className="mt-12 w-full max-w-sm">
-          {/* Illustration placeholder (could be replaced with SVG/Canvas/Img) */}
-          <div className="border-t border-black opacity-20 h-20 w-full rounded-sm bg-no-repeat bg-center bg-contain" style={{ backgroundImage: 'url(/illustration-line-art.png)' }} />
         </div>
 
 
