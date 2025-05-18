@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '../components/Navbar';
-import { createClient } from '../utils/supabase/client';
+import { createClient } from '../src/utils/supabase/client';
 import { useEffect, useState } from 'react'
 const supabase = createClient();
-import AuthStatus from '../components/authtest';
+import AuthStatus from '../components/AuthStatus.jsx';
 
 export default function Home() {
   return (

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { createClient } from '../utils/supabase/client';
+import { createClient } from '../src/utils/supabase/client';
 import { useEffect, useState } from 'react'
 
 export default function Navbar() {
