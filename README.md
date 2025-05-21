@@ -7,13 +7,8 @@
 ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=figma&logoColor=white)
 ![Axios](https://img.shields.io/badge/axios.js-854195?style=for-the-badge&logo=figma&logoColor=white)
  
-* Authors:  
-  &emsp;[Nolan Kosmal](https://github.com/Mightymango1),  
-  &emsp;[Kevin Wu](https://github.com/KevinWu085),  
-  &emsp;[Joshua Sevilla](https://github.com/Joshuahsevilla),  
-  &emsp;[Jason Lee](https://github.com/jalee314),  
-  &emsp;[Aryn Granados](https://github.com/ArynGrand),  
-  &emsp;[Ilhaan S Abdullah]()
+* Authors: [Nolan Kosmal](https://github.com/Mightymango1), [Kevin Wu](https://github.com/KevinWu085), [Joshua Sevilla](https://github.com/Joshuahsevilla), [Jason Lee](https://github.com/jalee314), [Aryn Granados](https://github.com/ArynGrand), [Ilhaan S Abdullah]()
+
 <br>
 * Motivation of the project 
   -  Dilemma of negative pressure to work, which can cause burnout and a bigger motivation not to do work
