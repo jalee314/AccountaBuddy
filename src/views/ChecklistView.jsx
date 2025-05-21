@@ -27,20 +27,20 @@ export default function ChecklistView() {
           </div>
           <ul className="space-y-3">
             {c.tasks.map((t) => (
-              <li key={t.id} className="flex items-center justify-between">
+              <li key={t.task_id} className="flex items-center justify-between">
                 <label className="flex items-center gap-2 w-full">
                   <input
                     type="checkbox"
                     checked={t.completed}
-                    onChange={() => toggleTask(c.id, t.id)}
+                    onChange={() => toggleTask(c.id, t.task_id)}
                     className="h-5 w-5"
                   />
                   <span className={`flex-1 text-left break-words ${t.completed ? 'line-through text-gray-400' : 'text-black'}`}>
-                    {t.text}
+                    {t.title}
                   </span>
                 </label>
                 <button
-                  onClick={() => removeTask(c.id, t.id)}
+                  onClick={() => removeTask(c.id, t.task_id)}
                   className="bg-red-500 hover:bg-red-600 text-white rounded-full px-3 py-1 transition"
                 >
                   -

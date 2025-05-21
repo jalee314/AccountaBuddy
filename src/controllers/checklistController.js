@@ -1,23 +1,26 @@
-'use client';
+import { v4 as uuidv4 } from 'uuid'; // If you need to generate UUIDs for user_id or similar
 
-import { createNewChecklist, createNewTask } from '../models/checklistModel';
+export const addTaskToChecklist = (checklists, setChecklists, cid, user_id) => {
+  const title = prompt('Enter the task title:');
+  if (!title) return;
 
-export const addChecklistToState = (checklists, setChecklists) => {
-  const newChecklist = createNewChecklist(checklists.length + 1);
-  setChecklists([...checklists, newChecklist]);
-};
+  const description = prompt('Enter a description (optional):') || 'EMPTY';
+  const due_date = new Date().toISOString(); // Or prompt for due date
+  const created_at = new Date().toISOString();
 
-export const removeChecklistFromState = (checklists, setChecklists, id) => {
-  console.log(`Cleaning up resources for checklist ${id}`);
-  setChecklists(checklists.filter((c) => c.id !== id));
-};
-
-export const addTaskToChecklist = (checklists, setChecklists, cid) => {
-  const name = prompt('Enter the task name:');
-  if (!name) return;
+  const newTask = {
+    id: Date.now(), // Or use a better unique id generator
+    user_id: user_id || uuidv4(),
+    title,
+    description,
+    due_date,
+    completed: false,
+    created_at,
+    completed_at: null,
+  };
 
   const updated = checklists.map((c) =>
-    c.id === cid ? { ...c, tasks: [...c.tasks, createNewTask(c.tasks, name)] } : c
+    c.id === cid ? { ...c, tasks: [...c.tasks, newTask] } : c
   );
 
   setChecklists(updated);
@@ -29,7 +32,13 @@ export const toggleTaskInChecklist = (checklists, setChecklists, cid, tid) => {
       ? {
           ...c,
           tasks: c.tasks.map((t) =>
-            t.id === tid ? { ...t, completed: !t.completed } : t
+            t.id === tid
+              ? {
+                  ...t,
+                  completed: !t.completed,
+                  completed_at: !t.completed ? new Date().toISOString() : null,
+                }
+              : t
           ),
         }
       : c
@@ -41,9 +50,8 @@ export const toggleTaskInChecklist = (checklists, setChecklists, cid, tid) => {
 export const removeTaskFromChecklist = (checklists, setChecklists, cid, tid) => {
   const updated = checklists.map((c) =>
     c.id === cid
-      ? { ...c, tasks: c.tasks.filter((t) => t.id !== tid) }
+      ? { ...c, tasks: c.tasks.filter((t) => t.task_id !== tid) }
       : c
   );
-
   setChecklists(updated);
 };

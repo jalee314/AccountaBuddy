@@ -1,15 +1,36 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import {
-  addChecklistToState,
-  removeChecklistFromState,
   addTaskToChecklist,
   toggleTaskInChecklist,
-  removeTaskFromChecklist,
+  removeTaskFromChecklist
+  // removeChecklistFromState, // Only include if it exists
 } from '../controllers/checklistController';
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 export const useChecklist = () => {
+  //using backend data
+  const [checklists, setChecklists] = useState([]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const { data, error } = await supabase.from('tasks').select('*');
+      if (error) {
+        console.error('Failed to fetch tasks:', error);
+      } else {
+        setChecklists([{ id: 1, tasks: data }]); // Adjust structure as needed
+      }
+    };
+    fetchTasks();
+  }, []);
+
+  //pre-set for testing
+  /*
   const [checklists, setChecklists] = useState([
     {
       id: 1,
@@ -19,7 +40,7 @@ export const useChecklist = () => {
       ],
     },
   ]);
-
+  */
   return {
     checklists,
     addChecklist: () => addChecklistToState(checklists, setChecklists),
