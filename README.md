@@ -42,6 +42,10 @@
   - Achievements (streaks / reward system for consistency)  
   - Leaderboard  
 
-
+*  **Software Architecture Pattern** <br>
+![software architecture parttern](public/software architecture pattern 1.png)
+*  **entity diagram**
+![entity diagram](public/entity diagram.png)
+  
 
 
