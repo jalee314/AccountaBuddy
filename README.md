@@ -19,17 +19,18 @@
   - By getting friends involved, an element of competition is added to possibly mundane tasks, making users more inclined to get their work done  
   - Using friendly competition through a leaderboard would gamify the product, making it more interesting for the user  
 <br>
-* **Functionalities**
-  -  Creating/sign in for user 
-  -  Users can add and remove checklist items.
-  -  List deadline
-  -  Priority list item
-  -  Checking off completed item
-  -  SMS function for friends to send reminder
-  -  Search different users
-  -  Adding friends on website
-  -  Achievements (streaks / reward system for consistency)
-  -  Leaderboard
+
+* **Functionalities**  
+  - Creating/signing in for users  
+  - Users can add and remove checklist items  
+  - List deadlines  
+  - Prioritize list items  
+  - Check off completed items  
+  - SMS function for friends to send reminders  
+  - Search for different users  
+  - Add friends on the website  
+  - Achievements (streaks / reward system for consistency)  
+  - Leaderboard  
 
 
 
