@@ -1,6 +1,6 @@
 'use client';
 
-import Leaderboard from '../../components/LeaderboardView';
+import Leaderboard from '../../src/views/LeaderboardView';
 import Navbar from '../../components/Navbar';
 
 export default function LeaderboardPage() {

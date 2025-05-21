@@ -1,6 +1,6 @@
 'use client';
 
-import AddFriendForm from './addFriendForm';
+import AddFriendForm from '../../components/addFriendForm';
 
 export default function FriendView() {
   return (

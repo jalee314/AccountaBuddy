@@ -1,6 +1,6 @@
 'use client';
 
-import { useChecklist } from '../src/hooks/useChecklist';
+import { useChecklist } from '../hooks/useChecklist';
 
 export default function ChecklistView() {
   const { checklists, addChecklist, removeChecklist, addTask, toggleTask, removeTask } = useChecklist();

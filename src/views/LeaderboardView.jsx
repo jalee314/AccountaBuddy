@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useLeaderboardController } from '../src/hooks/useLeaderboardController';
+import { useLeaderboardController } from '../hooks/useLeaderboardController';
 
 export default function LeaderboardView() {
   const { sortedPlayers, loading, error } = useLeaderboardController();
