@@ -9,14 +9,14 @@
  
 > Authors:
 > <br>
- &emsp;\<[Nolan Kosmal](https://github.com/Mightymango1)\>
+ &emsp;\[Nolan Kosmal](https://github.com/Mightymango1)\
 > <br>
- &emsp;\<[Kevin Wu](https://github.com/mononomon](https://github.com/KevinWu085))\>
+ &emsp;\[Kevin Wu](https://github.com/mononomon](https://github.com/KevinWu085))\
 > <br>
- &emsp;\<[Joshua Sevilla](https://github.com/lowbabun](https://github.com/Joshuahsevilla))\>
+ &emsp;\[Joshua Sevilla](https://github.com/lowbabun](https://github.com/Joshuahsevilla))\
 > <br>
- &emsp;\<[Jason Lee](https://github.com/jalee314)\>
+ &emsp;\[Jason Lee](https://github.com/jalee314)\
 > <br>
- &emsp;\<[Aryn Granados](https://github.com/ArynGrand)\>
+ &emsp;\[Aryn Granados](https://github.com/ArynGrand)\
 > <br>
- &emsp;\<[Ilhaan S Abdullah]()\>
+ &emsp;\[Ilhaan S Abdullah]()\
