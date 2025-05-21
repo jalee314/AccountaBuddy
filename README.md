@@ -11,11 +11,13 @@
 
 <br>
 
-* **Motivation of the project**  
-  - The dilemma of negative pressure to work, which can cause burnout and lead to even less motivation to do work  
-  - Instead of making schoolwork feel isolating or daunting, we aim to use positive social reinforcement to make getting work done easier  
-  - Keeping track of the amount of work you've completed can be ambiguous, so an achievement system would provide a clear sign of progress  
-  - Getting friends involved adds an element of competition to mundane tasks, encouraging productivity. A friendly leaderboard would gamify the experience and make it more engaging for users  
+* **Motivation of the project**
+  - Dilemma of negative pressure to work, which can cause burnout and a bigger motivation not to do work  
+  - Instead of making schoolwork feel isolating or daunting, we want to use positive social reinforcement to make getting work done easier  
+  - Keeping track of the amount of work you have gotten done is sometimes ambiguous, so an achievement system would provide a sign of concrete progress  
+  - By getting friends involved, an element of competition is added to possibly mundane tasks, making users more inclined to get their work done  
+  - Using friendly competition through a leaderboard would gamify the product, making it more interesting for the user  
+
 
 
 
