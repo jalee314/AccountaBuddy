@@ -7,7 +7,8 @@
 ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=figma&logoColor=white)
 ![Axios](https://img.shields.io/badge/axios.js-854195?style=for-the-badge&logo=figma&logoColor=white)
 
-**AccountaBuddy** <br>
+![AccountaBuddy](AccountaBuddy/public/accountabuddy_card_1.png)
+
 
 
 * Authors:<br>
