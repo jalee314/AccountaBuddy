@@ -12,12 +12,14 @@
 * Authors:<br>
 [Nolan Kosmal](https://github.com/Mightymango1), [Kevin Wu](https://github.com/KevinWu085), [Joshua Sevilla](https://github.com/Joshuahsevilla), [Jason Lee](https://github.com/jalee314), [Aryn Granados](https://github.com/ArynGrand), [Ilhaan S Abdullah]()
 <br>
+
 * **Specifications**  
-  - Platform: Website  
-  - Front-end: react.js, tailwindCSS, deploy on verce 
-  - Back-end: Javascript
-  - Database: supabase 
-  - UI: figma
+  - **Platform:** Website  
+  - **Front-end:** React.js, Tailwind CSS, deployed on Vercel  
+  - **Back-end:** JavaScript  
+  - **Database:** Supabase  
+  - **UI Design:** Figma  
+
 <br>
 
 * **Motivation of the project**
