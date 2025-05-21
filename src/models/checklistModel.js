@@ -34,3 +34,8 @@ export async function createNewTask({ user_id, title, description, due_date }) {
   if (error) throw error;
   return data;
 }
+
+export async function deleteTask(taskId) {
+  const { error } = await supabase.from('tasks').delete().eq('id', taskId);
+  if (error) throw error;
+}

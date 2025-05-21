@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'; // If you need to generate UUIDs for user_id or similar
-
+import { deleteTask } from '../models/checklistModel';
 export const addTaskToChecklist = (checklists, setChecklists, cid, user_id) => {
   const title = prompt('Enter the task title:');
   if (!title) return;
@@ -47,11 +47,22 @@ export const toggleTaskInChecklist = (checklists, setChecklists, cid, tid) => {
   setChecklists(updated);
 };
 
-export const removeTaskFromChecklist = (checklists, setChecklists, cid, tid) => {
-  const updated = checklists.map((c) =>
-    c.id === cid
-      ? { ...c, tasks: c.tasks.filter((t) => t.task_id !== tid) }
-      : c
-  );
-  setChecklists(updated);
-};
+export async function removeTaskFromChecklist(checklists, setChecklists, checklistId, taskId) {
+  if (!taskId) {
+    alert('Task ID is undefined. Cannot remove this task.');
+    return;
+  }
+  try {
+    await deleteTask(taskId);
+    setChecklists(
+      checklists.map(cl =>
+        cl.id === checklistId
+          ? { ...cl, tasks: cl.tasks.filter(task => task.id !== taskId) }
+          : cl
+      )
+    );
+  } catch (error) {
+    console.error('Failed to delete task:', error);
+    alert('Failed to delete task: ' + (error.message || JSON.stringify(error)));
+  }
+}

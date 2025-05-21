@@ -26,13 +26,13 @@ export default function ChecklistView() {
             </button>
           </div>
           <ul className="space-y-3">
-            {c.tasks.map((t) => (
-              <li key={t.task_id} className="flex items-center justify-between">
+            {c.tasks.map((t, idx) => (
+              <li key={t.id ?? idx} className="flex items-center justify-between">
                 <label className="flex items-center gap-2 w-full">
                   <input
                     type="checkbox"
                     checked={t.completed}
-                    onChange={() => toggleTask(c.id, t.task_id)}
+                    onChange={() => toggleTask(c.id, t.id)}
                     className="h-5 w-5"
                   />
                   <span className={`flex-1 text-left break-words ${t.completed ? 'line-through text-gray-400' : 'text-black'}`}>
@@ -40,7 +40,13 @@ export default function ChecklistView() {
                   </span>
                 </label>
                 <button
-                  onClick={() => removeTask(c.id, t.task_id)}
+                  onClick={() => {
+                    if (t.id === undefined) {
+                      alert('Task ID is undefined. Cannot remove this task.');
+                      return;
+                    }
+                    removeTask(c.id, t.id);
+                  }}
                   className="bg-red-500 hover:bg-red-600 text-white rounded-full px-3 py-1 transition"
                 >
                   -
