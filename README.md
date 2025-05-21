@@ -43,9 +43,10 @@
   - Leaderboard  
 
 *  **Software Architecture Pattern** <br>
-![software architecture parttern](public/software architecture pattern 1.png)
+![software architecture parttern](public/software_architecture.png)
+
 *  **entity diagram**
-![entity diagram](public/entity diagram.png)
+![entity diagram](public/entity_diagram.png)
   
 
 
