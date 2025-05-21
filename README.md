@@ -6,7 +6,10 @@
 ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
 ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=figma&logoColor=white)
 ![Axios](https://img.shields.io/badge/axios.js-854195?style=for-the-badge&logo=figma&logoColor=white)
- 
+
+**AccountaBuddy** <br>
+
+
 * Authors:<br>
 [Nolan Kosmal](https://github.com/Mightymango1), [Kevin Wu](https://github.com/KevinWu085), [Joshua Sevilla](https://github.com/Joshuahsevilla), [Jason Lee](https://github.com/jalee314), [Aryn Granados](https://github.com/ArynGrand), [Ilhaan S Abdullah]()
 
