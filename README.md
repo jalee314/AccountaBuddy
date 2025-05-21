@@ -18,7 +18,18 @@
   - Keeping track of the amount of work you have gotten done is sometimes ambiguous, so an achievement system would provide a sign of concrete progress  
   - By getting friends involved, an element of competition is added to possibly mundane tasks, making users more inclined to get their work done  
   - Using friendly competition through a leaderboard would gamify the product, making it more interesting for the user  
-
+<br>
+* **Functionalities**
+  -  Creating/sign in for user 
+  -  Users can add and remove checklist items.
+  -  List deadline
+  -  Priority list item
+  -  Checking off completed item
+  -  SMS function for friends to send reminder
+  -  Search different users
+  -  Adding friends on website
+  -  Achievements (streaks / reward system for consistency)
+  -  Leaderboard
 
 
 
