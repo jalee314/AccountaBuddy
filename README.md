@@ -10,7 +10,7 @@
 * Authors: [Nolan Kosmal](https://github.com/Mightymango1), [Kevin Wu](https://github.com/KevinWu085), [Joshua Sevilla](https://github.com/Joshuahsevilla), [Jason Lee](https://github.com/jalee314), [Aryn Granados](https://github.com/ArynGrand), [Ilhaan S Abdullah]()
 
 <br>
-* Motivation of the project 
+*  Motivation of the project 
   -  Dilemma of negative pressure to work, which can cause burnout and a bigger motivation not to do work
   -  Instead of making schoolwork feel isolating/daunting, we want to use positive social reinforcement to make getting work done easier
   -  Keeping track of the amount of work you have gotten done is sometimes ambiguous, so an achievement system would provide a sign of concrete progress
