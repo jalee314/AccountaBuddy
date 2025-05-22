@@ -42,14 +42,14 @@
   - Achievements (streaks / reward system for consistency)  
   - Leaderboard  
 
-*  **Software Architecture Pattern** <br>
-![software architecture parttern](public/software_architecture.png)
-
 <p>
-  <img src="public/software_architecture_pattern_1.png" alt="Software Architecture Pattern" width="500"/>
+  <img src="public/software_architecture.png" alt="Software Architecture Pattern" width="500"/>
 </p>
 
 <p>
   <img src="public/entity_diagram.png" alt="Entity Diagram" width="500"/>
 </p>
 
+<p>
+  <img src="public/website_looks" alt="website looks" width="500"/>
+</p>
