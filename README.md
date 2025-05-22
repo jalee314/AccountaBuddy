@@ -49,5 +49,5 @@
 ![entity diagram](public/entity_diagram.png)
   
 *  **webtsite looks**
-
+![website looks](public/website_looks.png)
 
