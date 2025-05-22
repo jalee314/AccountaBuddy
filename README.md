@@ -45,9 +45,11 @@
 *  **Software Architecture Pattern** <br>
 ![software architecture parttern](public/software_architecture.png)
 
-*  **entity diagram**
-![entity diagram](public/entity_diagram.png)
-  
-*  **webtsite looks**
-![website looks](public/website_looks)
+<p>
+  <img src="public/software_architecture_pattern_1.png" alt="Software Architecture Pattern" width="500"/>
+</p>
+
+<p>
+  <img src="public/entity_diagram.png" alt="Entity Diagram" width="500"/>
+</p>
 
