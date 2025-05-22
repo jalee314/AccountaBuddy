@@ -42,14 +42,14 @@
   - Achievements (streaks / reward system for consistency)  
   - Leaderboard  
 
-<p>
+<p align="center">
   <img src="public/software_architecture.png" alt="Software Architecture Pattern" width="500"/>
 </p>
 
-<p>
+<p align="center">
   <img src="public/entity_diagram.png" alt="Entity Diagram" width="500"/>
 </p>
 
-<p>
+<p align="center">
   <img src="public/website_looks" alt="website looks" width="500"/>
 </p>
