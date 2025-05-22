@@ -44,15 +44,15 @@
   
 * **Software Architecture Pattern**
 <p align="center">
-  <img src="public/software_architecture.png" alt="Software Architecture Pattern" width="700"/>
+  <img src="public/software_architecture.png" alt="Software Architecture Pattern" width="1000"/>
 </p>
 
 * **Entity-Relationship Diagram**
 <p align="center">
-  <img src="public/entity_diagram.png" alt="Entity Diagram" width="700"/>
+  <img src="public/entity_diagram.png" alt="Entity Diagram" width="1000"/>
 </p>
 
 * **Website Looks**
 <p align="center">
-  <img src="public/website_looks" alt="website looks" width="700"/>
+  <img src="public/website_looks" alt="website looks" width="1000"/>
 </p>
