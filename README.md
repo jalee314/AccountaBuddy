@@ -10,6 +10,8 @@
 <p align="center">
   <img src="public/accountabuddy_card_1.png" alt="accountabuddy" width="1000"/>
 </p>
+
+
 * Authors:<br>
 [Nolan Kosmal](https://github.com/Mightymango1), [Kevin Wu](https://github.com/KevinWu085), [Joshua Sevilla](https://github.com/Joshuahsevilla), [Jason Lee](https://github.com/jalee314), [Aryn Granados](https://github.com/ArynGrand), [Ilhaan S Abdullah]()
 <br>
