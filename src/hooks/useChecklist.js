@@ -23,6 +23,13 @@ export const useChecklist = () => {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
+    // Get session on mount
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const uid = session?.user?.id;
+      setUserId(uid);
+      if (uid) fetchTasks(uid);
+    });
+
     // Helper to fetch tasks for a user
     const fetchTasks = async (uid) => {
       if (!uid) return;
@@ -30,8 +37,6 @@ export const useChecklist = () => {
         .from('tasks')
         .select('*')
         .eq('user_id', uid);
-
-      console.log('Fetched tasks:', data, error);
 
       if (error) {
         console.error('Failed to fetch tasks:', error);
@@ -53,41 +58,10 @@ export const useChecklist = () => {
     const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
       const newUid = session?.user?.id;
       setUserId(newUid);
-
-      // Debug: get user directly from supabase
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {  
-        console.log("onAuthStateChange - User ID:", user.id);
-      } else {
-        console.log("onAuthStateChange - No user from getUser()");
-      }
-
       if (newUid) {
         fetchTasks(newUid);
       } else {
         setChecklists([]);
-        console.log('No user logged in');
-      }
-    });
-
-    // Immediately check for an existing session after setting up the listener
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      const uid = session?.user?.id;
-      setUserId(uid);
-
-      // Debug: get user directly from supabase
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {  
-        console.log("getSession - User ID:", user.id);
-      } else {
-        console.log("getSession - No user from getUser()");
-      }
-
-      if (uid) {
-        fetchTasks(uid);
-      } else {
-        setChecklists([]);
-        console.log('No user logged in');
       }
     });
 
@@ -100,7 +74,7 @@ export const useChecklist = () => {
     checklists,
     addChecklist: () => addChecklistToState(checklists, setChecklists),
     removeChecklist: (id) => removeChecklistFromState(checklists, setChecklists, id),
-    addTask: (cid) => addTaskToChecklist(checklists, setChecklists, cid, userId), // Use dynamic userId
+    addTask: (cid) => addTaskToChecklist(checklists, setChecklists, cid, userId),
     toggleTask: (cid, tid) => toggleTaskInChecklist(checklists, setChecklists, cid, tid),
     removeTask: async (cid, tid) => await removeTaskFromChecklist(checklists, setChecklists, cid, tid),
   };
