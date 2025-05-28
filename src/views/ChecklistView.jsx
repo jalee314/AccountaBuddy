@@ -27,30 +27,38 @@ export default function ChecklistView() {
           </div>
           <ul className="space-y-3">
             {c.tasks.map((t, idx) => (
-              <li key={t.id ?? idx} className="flex items-center justify-between">
-                <label className="flex items-center gap-2 w-full">
-                  <input
-                    type="checkbox"
-                    checked={t.completed}
-                    onChange={() => toggleTask(c.id, t.id)}
-                    className="h-5 w-5"
-                  />
-                  <span className={`flex-1 text-left break-words ${t.completed ? 'line-through text-gray-400' : 'text-black'}`}>
-                    {t.title}
-                  </span>
-                </label>
-                <button
-                  onClick={() => {
-                    if (t.id === undefined) {
-                      alert('Task ID is undefined. Cannot remove this task.');
-                      return;
-                    }
-                    removeTask(c.id, t.id);
-                  }}
-                  className="bg-red-500 hover:bg-red-600 text-white rounded-full px-3 py-1 transition"
-                >
-                  -
-                </button>
+              <li key={t.id ?? idx} className="flex flex-col items-start border-b border-gray-200 pb-2 last:border-b-0">
+                <div className="flex items-center justify-between w-full">
+                  <label className="flex items-center gap-3 flex-grow cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={t.completed}
+                      onChange={() => toggleTask(c.id, t.id)}
+                      className="h-5 w-5 rounded text-blue-600 focus:ring-blue-500 border-gray-300"
+                    />
+                    <span className={`flex-1 text-left break-words ${t.completed ? 'line-through text-gray-400' : 'text-black'}`}>
+                      {t.title}
+                    </span>
+                  </label>
+                  <button
+                    onClick={() => {
+                      if (t.id === undefined) {
+                        alert('Task ID is undefined. Cannot remove this task.');
+                        return;
+                      }
+                      removeTask(c.id, t.id);
+                    }}
+                    className="bg-red-500 hover:bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center transition text-sm ml-2 flex-shrink-0"
+                    aria-label="Remove task"
+                  >
+                    -
+                  </button>
+                </div>
+                {t.description && t.description !== 'EMPTY' && (
+                  <p className="ml-8 mt-1 text-sm text-gray-600 break-words w-full text-left pr-2">
+                    {t.description}
+                  </p>
+                )}
               </li>
             ))}
           </ul>

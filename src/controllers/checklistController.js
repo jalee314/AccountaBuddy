@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'; // If you need to generate UUIDs for user_id or similar
-import { createNewTask, deleteTask } from '../models/checklistModel';
+import { createNewTask, deleteTask, updateTaskStatus } from '../models/checklistModel';
 
 export const addTaskToChecklist = async (checklists, setChecklists, cid, user_id) => {
   const title = prompt('Enter the task title:');
@@ -36,25 +36,61 @@ export const addTaskToChecklist = async (checklists, setChecklists, cid, user_id
   }
 };
 
-export const toggleTaskInChecklist = (checklists, setChecklists, cid, tid) => {
-  const updated = checklists.map((c) =>
-    c.id === cid
-      ? {
-          ...c,
-          tasks: c.tasks.map((t) =>
-            t.id === tid
-              ? {
-                  ...t,
-                  completed: !t.completed,
-                  completed_at: !t.completed ? new Date().toISOString() : null,
-                }
-              : t
-          ),
-        }
-      : c
-  );
+export const toggleTaskInChecklist = async (checklists, setChecklists, cid, tid) => {
+  let taskToUpdate;
+  let currentChecklist;
 
-  setChecklists(updated);
+  // Find the task to determine its current completed status
+  for (const c of checklists) {
+    if (c.id === cid) {
+      currentChecklist = c;
+      for (const t of c.tasks) {
+        if (t.id === tid) {
+          taskToUpdate = t;
+          break;
+        }
+      }
+    }
+    if (taskToUpdate) break;
+  }
+
+  if (!taskToUpdate) {
+    console.error("Task not found for toggling.");
+    alert("Task not found. Cannot update status.");
+    return;
+  }
+
+  const newCompletedStatus = !taskToUpdate.completed;
+  const newCompletedAt = newCompletedStatus ? new Date().toISOString() : null;
+
+  try {
+    // 1. Update the task in the database
+    await updateTaskStatus(tid, newCompletedStatus, newCompletedAt);
+
+    // 2. If database update is successful, update the local state
+    const updated = checklists.map((c) =>
+      c.id === cid
+        ? {
+            ...c,
+            tasks: c.tasks.map((t) =>
+              t.id === tid
+                ? {
+                    ...t,
+                    completed: newCompletedStatus,
+                    completed_at: newCompletedAt,
+                  }
+                : t
+            ),
+          }
+        : c
+    );
+    setChecklists(updated);
+
+  } catch (error) {
+    console.error('Failed to update task status in DB:', error);
+    alert('Failed to update task status: ' + (error.message || JSON.stringify(error)));
+    // The local state is not changed if the DB update fails
+  }
 };
 
 export async function removeTaskFromChecklist(checklists, setChecklists, checklistId, taskId) {

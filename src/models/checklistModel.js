@@ -39,3 +39,18 @@ export async function deleteTask(taskId) {
     throw error;
   }
 }
+
+export async function updateTaskStatus(taskId, completed, completed_at) {
+  const { data, error } = await supabase
+    .from('tasks')
+    .update({ completed, completed_at })
+    .eq('task_id', taskId)
+    .select() // Optionally select the updated row
+    .single(); // Assuming you want to work with the single updated row
+
+  if (error) {
+    console.error('Supabase update task status error:', error);
+    throw error;
+  }
+  return data;
+}

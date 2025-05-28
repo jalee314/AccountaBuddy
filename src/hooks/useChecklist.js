@@ -78,7 +78,7 @@ export const useChecklist = () => {
       }
       addTaskToChecklist(checklists, setChecklists, cid, userId);
     },
-    toggleTask: (cid, tid) => toggleTaskInChecklist(checklists, setChecklists, cid, tid),
+    toggleTask: async (cid, tid) => toggleTaskInChecklist(checklists, setChecklists, cid, tid),
     removeTask: async (cid, tid) => await removeTaskFromChecklist(checklists, setChecklists, cid, tid),
     userId,
   };
