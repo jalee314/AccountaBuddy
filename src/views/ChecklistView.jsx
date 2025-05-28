@@ -3,7 +3,7 @@
 import { useChecklist } from '../hooks/useChecklist';
 
 export default function ChecklistView() {
-  const { checklists, addChecklist, removeChecklist, addTask, toggleTask, removeTask } = useChecklist();
+  const { checklists, addChecklist, removeChecklist, addTask, toggleTask, removeTask, userId } = useChecklist();
 
   return (
     <div className="w-full max-w-xl">
@@ -57,8 +57,9 @@ export default function ChecklistView() {
           <button
             onClick={() => addTask(c.id)}
             className="mt-4 bg-blue-800 text-white rounded-full px-6 py-2 hover:bg-blue-600 transition"
+            disabled={!userId}
           >
-            + Add Task
+            {!userId ? 'Loading...' : '+ Add Task'}
           </button>
         </div>
       ))}

@@ -1,10 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-
-// *will need to modify so it doesnt use the public supabase key
-// *using for testing for now
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-export const supabase = createClient(supabaseUrl, supabaseKey);
+import { createClient } from '../utils/supabase/client';
+const supabase = createClient();
 
 // Fetch all tasks for a user
 export async function fetchTasksByUser(user_id) {
