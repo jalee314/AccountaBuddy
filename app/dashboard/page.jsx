@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar';
 import ChecklistView from '../../src/views/ChecklistView';
 import FriendView from '../../src/views/FriendView';
 
-export default function FriendlistPage() {
+export default function DashboardPage() {
   return (
     <>
       <Navbar />
