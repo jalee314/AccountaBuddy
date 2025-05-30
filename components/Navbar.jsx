@@ -80,11 +80,11 @@ export default function Navbar() {
 
       <div className="flex items-center space-x-6 text-sm text-black font-medium">
         <Link href="/about" className="hover:underline">About</Link>
-        <Link href="/dashboard" className="hover:underline">Dashboard</Link>
         <Link href="/leaderboard" className="hover:underline">Leaderboard</Link>
         <div className="flex items-center space-x-4">
           {user ? (
             <>
+              <Link href="/dashboard" className="hover:underline">Dashboard</Link>
               <img
                 src="/avatar_1.png"
                 alt="User Avatar"
