@@ -15,7 +15,7 @@ const getCurrentUserId = async () => {
 const findUserByEmail = async (email) => {
   const { data, error } = await supabase
     .from('users')
-    .select('user_id, display_name, email') // profile_pic_src removed
+    .select('user_id, display_name, email, profile_pic_src') 
     .eq('email', email)
     .single();
 
