@@ -1,27 +1,43 @@
+// src/hooks/useAuthStatus.js
 'use client';
 
-import { useEffect, useState } from 'react';
-import { getUserAndProfile, onAuthStateChange } from '../controllers/authStatusController';
+import { useEffect, useState, useCallback } from 'react';
+import { getUserAndProfile, onAuthStateChange as controllerOnAuthStateChange } from '../controllers/authStatusController';
 
 export const useAuthStatus = () => {
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const load = async () => {
-    const { user, userData } = await getUserAndProfile();
-    setUser(user);
-    setUserData(userData);
-  };
-
-  useEffect(() => {
-    load();
-
-    const subscription = onAuthStateChange(() => {
-      load();
-    });
-
-    return () => subscription?.unsubscribe();
+  const refreshAuthData = useCallback(async () => {
+    try {
+      const { user: authUser, userData: profileData } = await getUserAndProfile();
+      setUser(authUser);
+      setUserData(profileData);
+    } catch (error) {
+      console.error("Error fetching auth data in useAuthStatus:", error);
+      setUser(null);
+      setUserData(null);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { user, userData };
+  useEffect(() => {
+    setLoading(true);
+    refreshAuthData();
+
+    const subscription = controllerOnAuthStateChange((event, session) => {
+      setLoading(true);
+      refreshAuthData();
+    });
+
+    return () => {
+      if (subscription && typeof subscription.unsubscribe === 'function') {
+        subscription.unsubscribe();
+      }
+    };
+  }, [refreshAuthData]);
+
+  return { user, userData, loading };
 };
