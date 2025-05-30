@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import AddFriendForm from '../../components/addFriendForm';
 import CreateChecklistForm from '../../components/CreateChecklistForm';

@@ -3,6 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { createClient } from '../src/utils/supabase/client';
 import { useEffect, useState } from 'react';
 
@@ -10,6 +11,7 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     setLoading(true);
@@ -97,6 +99,7 @@ export default function Navbar() {
               <button
                 onClick={async () => {
                   await supabase.auth.signOut();
+                  router.push('/');
                 }}
                 className="px-4 py-2 text-red-600 hover:underline"
               >
