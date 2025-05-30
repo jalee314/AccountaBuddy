@@ -1,38 +1,41 @@
-'use client';
-
 import { useState } from 'react';
-import { sendFriendRequest } from '../controllers/friendController';
+import { sendFriendRequest } from '../controllers/friendController'; // Ensure path is correct
 
-export const useFriendForm = (onFriendAdded) => {
+export const useFriendForm = () => {
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
-
-    try {
-      await sendFriendRequest(email);
-      setSuccess(true);
-      setEmail('');
-      onFriendAdded?.();
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+  const handleSubmit = async (event) => { // 'event' is passed from the form's onSubmit
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
     }
+
+    if (!email.trim()) {
+      setStatusMessage('Please enter an email address.');
+      setIsLoading(false); // Ensure loading is false if we return early
+      return { success: false, message: 'Please enter an email address.' }; // Return a result object
+    }
+
+    setIsLoading(true);
+    setStatusMessage(''); // Clear previous messages
+
+    const result = await sendFriendRequest(email); // This is the call to your controller
+
+    setStatusMessage(result.message);
+    if (result.success) {
+      setEmail(''); // Clear email field on success
+    }
+
+    setIsLoading(false);
+    return result; // Return the full result object
   };
 
   return {
     email,
     setEmail,
-    loading,
-    error,
-    success,
     handleSubmit,
+    statusMessage,
+    isLoading,
   };
 };
