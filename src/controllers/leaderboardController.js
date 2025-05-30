@@ -1,20 +1,78 @@
-import { fetchPlayers } from '../models/leaderboardModel';
+import { createClient } from '../utils/supabase/client'; // Adjust path if necessary
 
-export const getLeaderboardData = async () => {
+const supabase = createClient();
+
+export const getGlobalLeaderboardData = async (limit = 20) => {
   try {
-    const players = await fetchPlayers();
-    return { players, error: null };
-  } catch (err) {
-    console.error('Error fetching leaderboard data:', err);
-    return {
-      players: [
-        { name: 'Charlie', score: 420, avatar: '/avatar_1.png', status: 'online' },
-        { name: 'Pim', score: 23, avatar: '/avatar_2.png', status: 'offline' },
-        { name: 'Alan', score: 69, avatar: '/avatar_3.png', status: 'offline' },
-        { name: 'Glep', score: 49382, avatar: '/avatar_4.png', status: 'offline' },
-        { name: 'Mr. Boss', score: 1023, avatar: '/avatar_5.png', status: 'offline' },
-      ],
-      error: err.message,
-    };
+    const { data, error } = await supabase
+      .from('leaderboard')
+      .select(`
+        score,
+        user:users (
+          user_id,
+          display_name,
+          profile_pic_src
+        )
+      `)
+      .not('user', 'is', null) // Ensure we only get entries with a valid joined user
+      .order('score', { ascending: false })
+      .limit(limit);
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching global leaderboard data:', error.message);
+    return [];
+  }
+};
+
+export const getFriendsLeaderboardData = async (currentUserId, limit = 20) => {
+  if (!currentUserId) return [];
+
+  try {
+    // 1. Get friend IDs + current user ID
+    const { data: friendships, error: fsError } = await supabase
+      .from('friendships')
+      .select('requester_id, recipient_id')
+      .eq('status', 'accepted')
+      .or(`requester_id.eq.${currentUserId},recipient_id.eq.${currentUserId}`);
+
+    if (fsError) throw fsError;
+
+    let relevantUserIds = [currentUserId];
+    if (friendships) {
+      friendships.forEach(f => {
+        if (f.requester_id === currentUserId) {
+          relevantUserIds.push(f.recipient_id);
+        } else {
+          relevantUserIds.push(f.requester_id);
+        }
+      });
+    }
+    relevantUserIds = [...new Set(relevantUserIds)]; // Deduplicate
+
+    if (relevantUserIds.length === 0) return [];
+
+    // 2. Fetch leaderboard data for these user IDs
+    const { data, error } = await supabase
+      .from('leaderboard')
+      .select(`
+        score,
+        user:users (
+          user_id,
+          display_name,
+          profile_pic_src
+        )
+      `)
+      .in('user_id', relevantUserIds)
+      .not('user', 'is', null) // Ensure valid joined user
+      .order('score', { ascending: false })
+      .limit(limit);
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching friends leaderboard data:', error.message);
+    return [];
   }
 };

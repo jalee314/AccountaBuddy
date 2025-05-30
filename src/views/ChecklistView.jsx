@@ -171,7 +171,7 @@ export default function ChecklistView({ refreshTrigger }) {
             <AddTaskFormComponent checklistId={selectedChecklist.data.checklist_id} onTaskAdded={handleTaskAdded} onCancel={() => setShowAddTaskFormForChecklistId(null)}/>
           )}
           {isLoading.tasks ? <p className="text-sm text-gray-500">Loading tasks...</p> : tasks.length === 0 ? <p className="text-sm text-gray-500">No tasks in this checklist yet.</p> : (<ul className="space-y-1 bg-white rounded-md shadow-sm">{tasks.map(task => (<TaskItem key={task.task_id} task={task} canComplete={selectedChecklist.type === 'friend'} onCompleteTask={handleCompleteTask}/>))}</ul>)}
-          {taskCompletionMessage && <p className="text-sm mt-3 text-center font-medium">{taskCompletionMessage}</p>}
+          {taskCompletionMessage && <p className="text-sm mt-3 text-black text-center font-medium">{taskCompletionMessage}</p>}
         </section>
       )}
     </div>
