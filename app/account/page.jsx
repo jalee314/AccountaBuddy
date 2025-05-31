@@ -88,7 +88,7 @@ export default function ProfilePage() {
 
       if (error) throw error
       alert('Profile updated successfully! Welcome to Accountabuddy')
-      router.push('/friendlist')  // Redirect after updating
+      router.push('/')  // Redirect after updating
       
     } catch (error) {
       alert('Error updating profile: ' + error.message)
@@ -107,7 +107,7 @@ export default function ProfilePage() {
           <label className="block mb-1">Name</label>
           <input
             type="text"
-            value={userData.real_name}
+            value={userData.real_name || ''}
             onChange={(e) => setUserData({...userData, real_name: e.target.value})}
             className="w-full px-4 py-2 border rounded"
             required
@@ -117,7 +117,7 @@ export default function ProfilePage() {
           <label className="block mb-1">Display Name</label>
           <input
             type="text"
-            value={userData.display_name}
+            value={userData.display_name || ''}
             onChange={(e) => setUserData({...userData, display_name: e.target.value})}
             className="w-full px-4 py-2 border rounded"
             required
@@ -127,7 +127,7 @@ export default function ProfilePage() {
           <label className="block mb-1">Email (read-only)</label>
           <input
             type="email"
-            value={userData.email}
+            value={userData.email || ''}
             readOnly
             className="w-full px-4 py-2 border rounded bg-gray-100"
           />

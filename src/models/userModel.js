@@ -6,7 +6,7 @@ export const fetchUserProfile = async (userId) => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from('users')
-    .select('display_name, real_name, email')
+    .select('display_name, real_name, email, profile_pic_src')
     .eq('user_id', userId)
     .single();
 

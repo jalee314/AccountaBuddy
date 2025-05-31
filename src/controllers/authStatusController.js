@@ -18,6 +18,7 @@ export const getUserAndProfile = async () => {
     name: profile?.real_name || '',
     display_name: profile?.display_name || '',
     email: profile?.email || user.email,
+    profile_pic_src:  profile?.profile_pic_src || 'avatar_1.png'
   };
 
   return { user, userData };

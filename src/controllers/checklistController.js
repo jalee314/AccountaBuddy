@@ -1,114 +1,195 @@
-import { v4 as uuidv4 } from 'uuid'; // If you need to generate UUIDs for user_id or similar
-import { createNewTask, deleteTask, updateTaskStatus } from '../models/checklistModel';
+import { createClient } from '../utils/supabase/client';
 
-export const addTaskToChecklist = async (checklists, setChecklists, cid, user_id) => {
-  const title = prompt('Enter the task title:');
-  if (!title) return;
+const supabase = createClient();
 
-  const description = prompt('Enter a description (optional):') || 'EMPTY';
-  const due_date = new Date().toISOString();
+const getCurrentUser = async () => {
+  const { data: { user }, error } = await supabase.auth.getUser();
+  if (error || !user) {
+    console.error('User not authenticated for checklist operation:', error);
+    return null;
+  }
+  return user;
+};
+
+export const createChecklist = async (title, designatedFriendId) => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) return { success: false, message: 'User not authenticated.' };
+  if (!title || title.trim() === '') return { success: false, message: 'Checklist title cannot be empty.' };
+  if (!designatedFriendId) return { success: false, message: 'A friend must be designated for the checklist.' };
+  if (designatedFriendId === currentUser.id) return { success: false, message: 'You cannot designate yourself for accountability.' };
 
   try {
-    // Call backend to create the task
-    const newTask = await createNewTask({
-      user_id,
-      title,
-      description,
-      due_date,
-    });
+    const { data, error } = await supabase
+      .from('checklists')
+      .insert([{
+        user_id: currentUser.id, // Creator
+        title,
+        designated_friend_id: designatedFriendId, // Friend who verifies tasks
+      }])
+      .select()
+      .single();
 
-    // Use the returned task (with real id)
-    const updated = checklists.map((c) =>
-      c.id === cid ? { ...c, tasks: [...c.tasks, {
-        id: newTask.task_id, // Use the id from Supabase
-        title: newTask.title,
-        description: newTask.description,
-        due_date: newTask.due_date,
-        completed: newTask.completed,
-        created_at: newTask.created_at,
-        completed_at: newTask.completed_at,
-      }] } : c
-    );
-
-    setChecklists(updated);
+    if (error) throw error;
+    return { success: true, message: 'Checklist created!', checklist: data };
   } catch (error) {
-    alert('Failed to create task: ' + (error.message || JSON.stringify(error)));
+    return { success: false, message: error.message || 'Failed to create checklist.' };
   }
 };
 
-export const toggleTaskInChecklist = async (checklists, setChecklists, cid, tid) => {
-  let taskToUpdate;
-  let currentChecklist;
+export const getChecklistsCreatedByMe = async () => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) return [];
 
-  // Find the task to determine its current completed status
-  for (const c of checklists) {
-    if (c.id === cid) {
-      currentChecklist = c;
-      for (const t of c.tasks) {
-        if (t.id === tid) {
-          taskToUpdate = t;
-          break;
-        }
+  try {
+    const { data, error } = await supabase
+      .from('checklists')
+      .select(`
+        checklist_id,
+        user_id,
+        title,
+        created_at,
+        designated_friend_id,
+        designated_friend:designated_friend_id ( 
+          user_id,
+          display_name,
+          email
+        )
+      `)
+      .eq('user_id', currentUser.id);
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching checklists created by me:', error);
+    return [];
+  }
+};
+
+export const getChecklistsAssignedToMe = async () => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) return [];
+
+  try {
+    const { data, error } = await supabase
+      .from('checklists')
+      .select(`
+        checklist_id,
+        user_id,
+        title,
+        created_at,
+        designated_friend_id,
+        owner:user_id (
+          user_id,
+          display_name,
+          email,
+          profile_pic_src
+        )
+      `)
+      .eq('designated_friend_id', currentUser.id);
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching checklists assigned to me:', error);
+    return [];
+  }
+};
+
+export const getTasksForChecklist = async (checklistId) => {
+  try {
+    const { data, error } = await supabase
+      .from('tasks')
+      .select('*')
+      .eq('checklist_id', checklistId)
+      .order('created_at', { ascending: true });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error(`Error fetching tasks for checklist ${checklistId}:`, error);
+    return [];
+  }
+};
+
+export const createTask = async (checklistId, taskDetails) => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) return { success: false, message: 'User not authenticated.' };
+
+  const { data: checklist, error: checklistError } = await supabase
+    .from('checklists')
+    .select('user_id')
+    .eq('checklist_id', checklistId)
+    .single();
+
+  if (checklistError || !checklist) return { success: false, message: 'Checklist not found.' };
+  if (checklist.user_id !== currentUser.id) return { success: false, message: 'Not authorized to add tasks to this checklist.' };
+
+  try {
+    const { data, error } = await supabase
+      .from('tasks')
+      .insert([{
+        checklist_id: checklistId,
+        title: taskDetails.title,
+        description: taskDetails.description,
+        points: taskDetails.points || 0,
+        user_id: checklist.user_id, // Task is "owned" by the checklist creator
+      }])
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { success: true, message: 'Task added!', task: data };
+  } catch (error) {
+    console.error('Error creating task:', error);
+    return { success: false, message: error.message || 'Failed to add task.' };
+  }
+};
+
+export const markTaskAsComplete = async (taskId) => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) return { success: false, message: 'User not authenticated.' };
+
+  try {
+    const { data: task, error: taskError } = await supabase
+      .from('tasks')
+      .select(`
+        task_id, 
+        completed, 
+        points, 
+        checklist:checklists (
+          user_id, 
+          designated_friend_id
+        )
+      `)
+      .eq('task_id', taskId)
+      .single();
+
+    if (taskError || !task || !task.checklist) return { success: false, message: 'Task or associated checklist not found.' };
+    if (task.checklist.designated_friend_id !== currentUser.id) return { success: false, message: 'Only the designated friend can mark tasks as complete.' };
+    if (task.completed) return { success: false, message: 'Task is already marked as complete.' };
+
+    const { error: updateError } = await supabase
+      .from('tasks')
+      .update({ completed: true, completed_at: new Date().toISOString() })
+      .eq('task_id', taskId);
+
+    if (updateError) throw updateError;
+
+    const checklistOwnerId = task.checklist.user_id;
+    const taskPoints = task.points || 0;
+
+    if (taskPoints > 0 && checklistOwnerId) {
+      const { error: leaderboardError } = await supabase.rpc('upsert_score', {
+        p_user_id: checklistOwnerId,
+        p_score_increment: taskPoints
+      });
+      if (leaderboardError) {
+        console.error("Error updating leaderboard via RPC:", leaderboardError);
       }
     }
-    if (taskToUpdate) break;
-  }
-
-  if (!taskToUpdate) {
-    console.error("Task not found for toggling.");
-    alert("Task not found. Cannot update status.");
-    return;
-  }
-
-  const newCompletedStatus = !taskToUpdate.completed;
-  const newCompletedAt = newCompletedStatus ? new Date().toISOString() : null;
-
-  try {
-    // 1. Update the task in the database
-    await updateTaskStatus(tid, newCompletedStatus, newCompletedAt);
-
-    // 2. If database update is successful, update the local state
-    const updated = checklists.map((c) =>
-      c.id === cid
-        ? {
-            ...c,
-            tasks: c.tasks.map((t) =>
-              t.id === tid
-                ? {
-                    ...t,
-                    completed: newCompletedStatus,
-                    completed_at: newCompletedAt,
-                  }
-                : t
-            ),
-          }
-        : c
-    );
-    setChecklists(updated);
-
+    return { success: true, message: 'Task marked as complete!' };
   } catch (error) {
-    console.error('Failed to update task status in DB:', error);
-    alert('Failed to update task status: ' + (error.message || JSON.stringify(error)));
-    // The local state is not changed if the DB update fails
+    console.error('Error marking task as complete:', error);
+    return { success: false, message: error.message || 'Failed to mark task as complete.' };
   }
 };
-
-export async function removeTaskFromChecklist(checklists, setChecklists, checklistId, taskId) {
-  if (!taskId) {
-    alert('Task ID is undefined. Cannot remove this task.');
-    return;
-  }
-  try {
-    await deleteTask(taskId);
-    setChecklists(
-      checklists.map(cl =>
-        cl.id === checklistId
-          ? { ...cl, tasks: cl.tasks.filter(task => task.id !== taskId) }
-          : cl
-      )
-    );
-  } catch (error) {
-    console.error('Failed to delete task:', error);
-    alert('Failed to delete task: ' + (error.message || JSON.stringify(error)));
-  }
-}

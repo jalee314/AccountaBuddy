@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { handleSignup } from '../src/controllers/authController';
-import { useAuthStatus } from '../src/hooks/useAuthStatus'; 
+import { handleSignup } from '../controllers/authController';
+import { useAuthStatus } from '../hooks/useAuthStatus'; 
 
 export default function SignUpView() {
   const { user, userData } = useAuthStatus();

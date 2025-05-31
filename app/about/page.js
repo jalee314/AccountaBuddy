@@ -21,14 +21,6 @@ export default function AboutPage() {
         {/* Mission & Features */}
         <section className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           <div className="bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition">
-            <h2 className="text-2xl font-bold text-black mb-4">Our Mission</h2>
-            <ul className="list-disc list-inside text-gray-700 space-y-2 text-left">
-              <li>Use positive social reinforcement to reduce burnout and increase motivation.</li>
-              <li>Provide concrete progress tracking with an achievement system.</li>
-              <li>Introduce friendly competition via leaderboards to gamify mundane tasks.</li>
-            </ul>
-          </div>
-          <div className="bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition">
             <h2 className="text-2xl font-bold text-black mb-4">Key Features</h2>
             <ul className="list-disc list-inside text-gray-700 space-y-2 text-left">
               <li>User authentication (sign up / sign in).</li>
@@ -39,40 +31,36 @@ export default function AboutPage() {
               <li>Achievements (streaks / rewards) and leaderboard ranking.</li>
             </ul>
           </div>
+          <div className="bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition">
+            <h2 className="text-2xl font-bold text-black mb-4">Team Member</h2>
+            <ul className="list-disc list-inside text-gray-700 space-y-1 text-left">
+              <li>Kevin Wu</li>
+              <li>Nolan Kosmal</li>
+              <li>Joshua Sevilla</li>
+              <li>Jason Lee</li>
+              <li>Aryn Granados</li>
+              <li>Ilhaan S Abdullah</li>
+            </ul>
+            
+          </div>
         </section>
-
-        <div className="mb-16">
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 text-center">
-                Our Mission
-                </h2>
-                <p className="text-gray-600 text-center max-w-3xl mx-auto leading-relaxed">
-                
-                Democratizing Discipline Through Connection
+        {/* Team */}
+        <section className="w-full max-w-5xl bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition mb-12">
+          <h2 className="text-2xl font-bold text-black mb-4">Our Mission</h2>
+              <p className="text-gray-600 text-center max-w-3xl mx-auto leading-relaxed">
+                <b>Democratizing Discipline Through Connection</b>
                 <br/>
-                We believe willpower is overrated. Real change happens when:
+                <b>We believe willpower is overrated. Real change happens when:</b>
                 <br/>
                 ✅ Social pressure works for you (not against you) <br/>
                 ✅ Progress is visible and celebrated <br/>
                 ✅ Support feels playful, not punitive <br/>
                 <br/>
-                AccountaBuddy replaces lonely grind culture with what actually works: friends who care enough to nudge. Because behind every "I finally did it!" is someone who asked, "How’s it going?" at just the right time.
+                <b>AccountaBuddy replaces lonely grind culture with what actually works: friends who care enough to nudge. Because behind every "I finally did it!" is someone who asked, "How’s it going?" at just the right time.</b>
                 <br/>
                 <br/>
                 <strong>Join the rebellion against going it alone.</strong>
-                </p>
-            </div>
-
-        {/* Team */}
-        <section className="w-full max-w-5xl bg-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition mb-12">
-          <h2 className="text-2xl font-bold text-black mb-4">Team Members</h2>
-          <ul className="list-disc list-inside text-gray-700 space-y-1 text-left">
-            <li>Kevin Wu</li>
-            <li>Nolan Kosmal</li>
-            <li>Joshua Sevilla</li>
-            <li>Jason Lee</li>
-            <li>Aryn Granados</li>
-            <li>Ilhaan S Abdullah</li>
-          </ul>
+              </p>
         </section>
 
         {/* Tech & Tools */}
