@@ -91,6 +91,7 @@ export const getOutgoingPendingRequests = async () => {
           user_id,
           display_name,
           email 
+          profile_pic_src
         )
       `) // profile_pic_src removed from recipient select
       .eq('requester_id', userId)
@@ -116,6 +117,7 @@ export const getIncomingPendingRequests = async () => {
           user_id,
           display_name,
           email
+          profile_pic_src
         )
       `) // profile_pic_src removed from requester select
       .eq('recipient_id', userId)
@@ -171,7 +173,7 @@ export const declineFriendRequest = async (requesterIdToDecline) => {
   }
 };
 
-export const getAcceptedFriendsOptimized = async () => {
+export const getAcceptedFriends = async () => {
   try {
     const userId = await getCurrentUserId();
 
@@ -190,14 +192,14 @@ export const getAcceptedFriendsOptimized = async () => {
 
     const { data: friends, error: usersError } = await supabase
       .from('users')
-      .select('user_id, display_name, email') // profile_pic_src removed
+      .select('user_id, display_name, email, profile_pic_src') 
       .in('user_id', [...new Set(friendIds)]);
 
     if (usersError) throw usersError;
     return friends;
 
   } catch (error) {
-    console.error('Error fetching accepted friends (optimized):', error);
+    console.error('Error fetching accepted friends:', error);
     return [];
   }
 };

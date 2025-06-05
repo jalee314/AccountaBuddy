@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import AddFriendForm from '../../components/addFriendForm';
 import CreateChecklistForm from '../../components/CreateChecklistForm';
@@ -11,7 +10,7 @@ import {
   getIncomingPendingRequests,
   acceptFriendRequest,
   declineFriendRequest,
-  getAcceptedFriendsOptimized as getAcceptedFriends,
+  getAcceptedFriends
 } from '../../src/controllers/friendController';
 
 // FriendUserDisplay component (as defined in the previous response)
@@ -138,7 +137,6 @@ export default function DashboardPage() {
               </div>
             )}
             
-            {/* CORRECTED: The <hr /> is now rendered unconditionally as a separator */}
             <hr className="my-6 border-slate-300" />
             
             <ChecklistView refreshTrigger={checklistRefreshTrigger} />

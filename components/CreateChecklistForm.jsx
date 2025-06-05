@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { getAcceptedFriendsOptimized as getAcceptedFriends } from '../src/controllers/friendController';
+import { getAcceptedFriends } from '../src/controllers/friendController';
 import { createChecklist } from '../src/controllers/checklistController';
 
 export default function CreateChecklistForm({ onChecklistCreated, onCancel }) {
