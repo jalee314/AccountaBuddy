@@ -1,7 +1,7 @@
 // app/leaderboard/page.js
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar'; // Adjusted path
 import { createClient } from '../../src/utils/supabase/client'; // Adjusted path
 import { getGlobalLeaderboardData, getFriendsLeaderboardData } from '../../src/controllers/leaderboardController'; // Adjusted path
@@ -21,10 +21,10 @@ const LeaderboardEntry = ({ rank, userProfile, score }) => (
                 {rank}
             </span>
             <img
-                src={userProfile?.profile_pic_src || '/avatar_png_1.png'}
+                src={userProfile?.profile_pic_src || '/avatar_1.png'}
                 alt={userProfile?.display_name || 'User'}
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0"
-                onError={(e) => { e.currentTarget.src = '/avatar_png_1.png'; }}
+                onError={(e) => { e.currentTarget.src = '/avatar_1.png'; }}
             />
             <span className="font-medium text-slate-800 text-sm sm:text-base truncate flex-grow" title={userProfile?.display_name || 'Anonymous User'}>
                 {userProfile?.display_name || 'Anonymous User'}

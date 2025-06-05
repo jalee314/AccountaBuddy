@@ -19,13 +19,9 @@ export async function handleSignup(formData) {
   const email = formData.get('email');
   const password = formData.get('password');
 
-  const { error: signUpError } = await signUpUser({ email, password });
+  const { error: signUpError } = await signUpUser({ email, password});
   if (signUpError) redirect('/error');
 
-  // Automatically sign in the user after sign up
-  const { error: signInError } = await signInUser({ email, password });
-  if (signInError) redirect('/error');
-
   revalidatePath('/', 'layout');
-  redirect('/account');
+  redirect('/signIn');
 }

@@ -18,6 +18,8 @@ export const getGlobalLeaderboardData = async (limit = 20) => {
       .order('score', { ascending: false })
       .limit(limit);
 
+    console.log()
+
     if (error) throw error;
     return data || [];
   } catch (error) {
