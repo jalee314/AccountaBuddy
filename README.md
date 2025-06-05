@@ -36,13 +36,13 @@
 * **Functionalities**  
   - Creating/signing in for users  
   - Users can add and remove checklist items  
-  - List deadlines(cut)
-  - Prioritize list items(cut)  
+  - List deadlines *(Cut)
+  - Prioritize list items *(Cut)  
   - Check off completed items  
-  - SMS function for friends to send reminders(cut) 
+  - SMS function for friends to send reminders*(Cut) 
   - Search for different users  
   - Add friends on the website  
-  - Achievements (streaks / reward system for consistency)(cut)  
+  - Achievements (streaks / reward system for consistency) *(Cut)  
   - Leaderboard
   
 * **Software Architecture Pattern**
