@@ -23,5 +23,5 @@ export async function handleSignup(formData) {
   if (signUpError) redirect('/error');
 
   revalidatePath('/', 'layout');
-  redirect('/signIn');
+  redirect('/account');
 }
