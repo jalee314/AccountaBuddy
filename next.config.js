@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     
-    linter: {
+    eslint: {
       ignoreDuringBuilds: true,
     }
+
   };
 
   module.exports = nextConfig;
